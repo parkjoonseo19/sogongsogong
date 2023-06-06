@@ -1,0 +1,25 @@
+{% extends 'base.html' %} {% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <div>
+    <input type="text" name="inputRegID" placeholder="아이디" required />
+    <button type="submit" name="checkIDdup">중복확인</button>
+    {% if id_error_message %}
+    <p>{{ id_error_message }}</p>
+    {% endif %}
+  </div>
+
+  <div>
+    <div>
+      <input type="password" name="inputRegPW" placeholder="비밀번호" />
+    </div>
+    <div>
+      <input type="password" name="repeat" placeholder="비밀번호 확인" />
+      {% if pwd_error_message %}
+      <p>{{ pwd_error_message }}</p>
+      {% endif %}
+    </div>
+  </div>
+  <input type="submit" name="saveuser" value="회원가입" />
+</form>
+{% endblock %}

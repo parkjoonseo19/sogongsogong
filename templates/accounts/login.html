@@ -1,0 +1,14 @@
+{% extends 'base.html' %} {% block content %}
+<form action="{% url 'LoginView' %}" method="POST">
+  {% csrf_token %} {% if error_message %}
+  <p>{{ error_message }}</p>
+  {% endif%}
+  <div><input type="text" name="inputID" placeholder="아이디" required /></div>
+  <div>
+    <input type="password" name="inputPW" placeholder="비밀번호" required />
+  </div>
+  <input type="submit" value="로그인" />
+</form>
+
+<div>Todoto가 처음이신가요?<a href="{% url 'RegisterView' %}">회원가입</a></div>
+{% endblock %}
