@@ -1,4 +1,4 @@
 from django.shortcuts import render
 
-def ListAndWorkView(request) :
+def ListAndWork(request) :
     return render(request,'index.html')
