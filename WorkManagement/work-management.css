@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+/*상단 뒤로가기 화살표*/
+.arrow {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+/*작업명 표시되는 곳*/
+.title {
+  text-align: center;
+  margin-top: 80px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 300px;
+  height: 60px;
+
+  background: #FFC4D6;
+  border-radius: 10px;
+
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 30px;
+}
+
+/*작업명 분홍색 네모 안에서 위랑 띄워지게 
+padding이 없으면 위랑 딱 붙어있음*/
+.name {
+  margin: 0;
+  padding-top: 6px;
+}
+
+/*마감일과 우선순위 속성*/
+.two {
+  text-align: center;
+  width: 300px;
+  margin-top: 60px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 60px;
+
+  font-family: 'Noto Sans KR', sans-serif;
+  color: #000000;
+  font-weight: 400;
+  font-size: 22px;
+}
+
+/*마감일 속성(사진과 텍스트)*/
+.deadline {
+  display: flex;
+  align-items: center;
+  margin-left: 60px;
+  margin-bottom: 30px;
+}
+
+/*우선순위 속성(사진과 텍스트)*/
+.priority {
+  display: flex;
+  align-items: center;
+  margin-left: 60px;
+}
+
+/*마감일과 우선순위 텍스트 속성*/
+.span {
+  margin-left: 25px;
+  margin-bottom: 5px;
+}
+
+/*수정, 삭제 버튼 왼쪽 정렬*/
+.button {
+  display: flex;
+  margin-top: 100px;
+  justify-content: flex-end;
+}
+
+.trash {
+  margin-left: 30px;
+  margin-right: 300px;
+}
