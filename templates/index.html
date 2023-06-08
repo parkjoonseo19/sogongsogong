@@ -1,5 +1,8 @@
-{% extends 'base.html' %} {% block content %} {% if user.is_authenticated %}
-<div>{{ user.username }}</div>
-<a href="{% url 'logout' %}">로그아웃</a>
+{% extends 'base.html' %} {% block content %}
+</head>
+<body>
+    {% if user.is_authenticated %}
+    <div>{{ user.username }}</div>
+    <a href="{% url 'logout' %}">로그아웃</a>
 
 {% endif %} {% endblock %}

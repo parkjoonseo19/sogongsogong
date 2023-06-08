@@ -1,4 +1,6 @@
 {% extends 'base.html' %} {% block content %}
+</head>
+<body>
 <form action="{% url 'login' %}" method="POST">
   {% csrf_token %} {% if error_message %}
   <p>{{ error_message }}</p>

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+</head>
+<link rel="stylesheet" href="{% static 'css/work-management.css' %}" />
+<body>
+<header>
+  <a href="?">
+    <img class="arrow" src="{% static 'img/arrow.png' %}" />
+  </a>
+</header>
+
+<main>
+  <div class="title">
+    <p class="name">작업명</p>
+  </div>
+
+  <div class="two">
+    <div class="deadline">
+      <img src="{% static 'img/deadline.png' %}" />
+      <span class="span">마감일</span>
+    </div>
+    <div class="priority">
+      <img src="{% static 'img/priority.png' %}" />
+      <span class="span">우선순위</span>
+    </div>
+  </div>
+
+  <div class="button">
+    <img class="edit" src="{% static 'img/edit.png' %}" />
+    <img class="trash" src="{% static 'img/trash.png' %}" />
+  </div>
+</main>
+{% endblock %}
