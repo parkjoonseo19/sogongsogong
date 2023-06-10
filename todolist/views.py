@@ -21,3 +21,30 @@ def addList(request) :
         new_list = ListData.objects.create(listname=listname, user=user)
         return JsonResponse({'status': 'success', 'new_list_listname': new_list.listname})
     return JsonResponse({'status': 'error'})
+
+class SetPriorityView(View):
+    def post(self, request, pk):
+        workdata = get_object_or_404(WorkData, pk=pk)
+        priority = request.POST.get('priority')
+        workdata.priority = priority
+        workdata.save()
+        return redirect('worklists:workdata', pk=workdata.worklist.pk)
+
+class SetDeadlineView(View):
+    def post(self, request, pk):
+        workdata = get_object_or_404(WorkData, pk=pk)
+        deadline = request.POST.get('deadline')
+        workdata.deadline = deadline
+        workdata.save()
+        return redirect('worklists:workdata', pk=workdata.worklist.pk)
+
+class SortWorkDataView(View):
+    def get(self, request, pk, sort_by):
+        worklist = get_object_or_404(WorkList, pk=pk)
+        if sort_by == 'priority':
+            workdata_list = worklist.workdata_set.order_by('priority')
+        elif sort_by == 'deadline':
+            workdata_list = worklist.workdata_set.order_by('deadline')
+        else:
+            workdata_list = worklist.workdata_set.all()
+        return render(request, 'Workdata.html', {'worklist': worklist, 'workdata_list': workdata_list})
