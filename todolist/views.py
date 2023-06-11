@@ -22,13 +22,14 @@ def addList(request) :
         return JsonResponse({'status': 'success', 'new_list_listname': new_list.listname})
     return JsonResponse({'status': 'error'})
 
+'''
 class SetPriorityView(View):
     def post(self, request, pk):
         workdata = get_object_or_404(WorkData, pk=pk)
         priority = request.POST.get('priority')
         workdata.priority = priority
         workdata.save()
-        return redirect('worklists:workdata', pk=workdata.worklist.pk)
+        return JsonResponse({'priority': workdata.priority})
 
 class SetDeadlineView(View):
     def post(self, request, pk):
@@ -36,7 +37,7 @@ class SetDeadlineView(View):
         deadline = request.POST.get('deadline')
         workdata.deadline = deadline
         workdata.save()
-        return redirect('worklists:workdata', pk=workdata.worklist.pk)
+        return JsonResponse({'priority': workdata.priority})
 
 class SortWorkDataView(View):
     def get(self, request, pk, sort_by):
@@ -48,3 +49,40 @@ class SortWorkDataView(View):
         else:
             workdata_list = worklist.workdata_set.all()
         return render(request, 'Workdata.html', {'worklist': worklist, 'workdata_list': workdata_list})
+
+'''
+
+def set_priority(request, workdata_id):
+    workdata = get_object_or_404(WorkData, pk=workdata_id)
+    priority = request.POST.get('priority')
+
+    workdata.priority = priority
+    workdata.save()
+
+    return JsonResponse({'priority': workdata.priority})
+
+
+def set_deadline(request, workdata_id):
+    workdata = get_object_or_404(WorkData, pk=workdata_id)
+    deadline = request.POST.get('deadline')
+
+    workdata.deadline = deadline
+    workdata.save()
+
+    return JsonResponse({'deadline': workdata.deadline})
+
+def sort_by_priority(request, pk):
+    worklist = get_object_or_404(WorkList, pk=pk)
+    workdata_list = worklist.workdata_set.order_by('priority')
+
+    context = {'worklist': worklist, 'workdata_list': workdata_list}
+
+    return render(request, 'workdata.html', context)
+
+def sort_by_deadline(request, pk):
+    worklist = get_object_or_404(WorkList, pk=pk)
+    workdata_list = worklist.workdata_set.order_by('deadline')
+
+    context = {'worklist': worklist, 'workdata_list': workdata_list}
+
+    return render(request, 'workdata.html', context)
