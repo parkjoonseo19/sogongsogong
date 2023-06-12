@@ -6,8 +6,9 @@ urlpatterns = [
     path('',views.ListAndWork, name='ListAndWork'),
     path('workMangement/', views.test, name='test'),
     path('addList/', views.addList, name='addList'),
-    path('workdata/SetPriority/<int:pk>/', views.SetPriorityView, name='SetPriority'),
+    path('workdata/SetPriorityView/<int:pk>/', views.SetPriorityView, name='SetPriority'),
     path('workdata/SetDeadlineView/<int:pk>/', views.SetDeadlineView, name='SetDeadlineView'),
+    path('mark_completed/<int:workdata_id>/', views.completedWork, name='completedWork'),
     path('workdata/sortWorkPriority/<int:pk>/', views.SortByPriorityView, name='sortWorkPriority'),
-    path('workdata/sortWorkDeadline/<int:pk>/', views.SortByDeadlineView., name='sortWorkDeadline'),
+    path('workdata/sortWorkDeadline/<int:pk>/', views.SortByDeadlineView, name='sortWorkDeadline'),
 ]

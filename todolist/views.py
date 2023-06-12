@@ -52,7 +52,7 @@ class SortWorkDataView(View):
 
 '''
 
-def set_priority(request, workdata_id):
+def SetPriorityView(request, workdata_id):
     workdata = get_object_or_404(WorkData, pk=workdata_id)
     priority = request.POST.get('priority')
 
@@ -62,7 +62,7 @@ def set_priority(request, workdata_id):
     return JsonResponse({'priority': workdata.priority})
 
 
-def set_deadline(request, workdata_id):
+def SetDeadlineView(request, workdata_id):
     workdata = get_object_or_404(WorkData, pk=workdata_id)
     deadline = request.POST.get('deadline')
 
@@ -71,7 +71,15 @@ def set_deadline(request, workdata_id):
 
     return JsonResponse({'deadline': workdata.deadline})
 
-def sort_by_priority(request, pk):
+def completedWork(request, workdata_id):
+    workdata = get_object_or_404(WorkData, pk=workdata_id)
+
+    workdata.completed = True
+    workdata.save()
+
+    return JsonResponse({'completed': workdata.completed})
+
+def sortWorkPriority(request, pk):
     worklist = get_object_or_404(WorkList, pk=pk)
     workdata_list = worklist.workdata_set.order_by('priority')
 
@@ -79,7 +87,7 @@ def sort_by_priority(request, pk):
 
     return render(request, 'workdata.html', context)
 
-def sort_by_deadline(request, pk):
+def sortWorkDeadline(request, pk):
     worklist = get_object_or_404(WorkList, pk=pk)
     workdata_list = worklist.workdata_set.order_by('deadline')
 
