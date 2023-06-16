@@ -56,7 +56,7 @@ function Card({ id, title, content, onDelete }) {
           <img src="/img/arrange.png" alt="정렬" />
         </button>
         <button class="deletebtn" onClick={handleDelete}>
-          <img src="img/delete.png" alt="삭제" />
+          <img src="/img/delete.png" alt="삭제" />
         </button>
         {tasks.map((task) => (
           <li key={task.id}>
@@ -72,7 +72,7 @@ function Card({ id, title, content, onDelete }) {
           </li>
         ))}
         <button onClick={handleAddTask}>
-          <img src="img/workplus.png" alt="작업추가" />
+          <img src="/img/workplus.png" alt="작업추가" />
         </button>
       </ul>
 
@@ -98,18 +98,18 @@ export default function App() {
     <div className="app">
       <h1>
         <a href="">
-          <img src="logo" alt="로고" />
+          <img src="/img/logo.png" alt="로고" />
         </a>
       </h1>
       <div className="user-info">username님</div>
       <button>
-        <img src="src/img/logout.png" alt="로그아웃" />
+        <img src="/img/logout.png" alt="로그아웃" />
       </button>
       {cards.map((card) => (
         <Card key={card.id} id={card.id} onDelete={deleteCard} />
       ))}
       <button onClick={addCard}>
-        <img src="img/listplus.png" alt="목록추가" />
+        <img src="/img/listplus.png" alt="목록추가" />
       </button>
     </div>
   );
