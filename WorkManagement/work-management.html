@@ -3,37 +3,44 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Todoto</title>
+  <script src="work-management.js"></script>
   <link rel="stylesheet" href="work-management.css">
   <link rel="icon" href="./tap.png" type="image/png">
 </head>
 
 <body>
   <header>
+    <!-- 나중에 다 완성되면 작업목록 페이지랑 링크해주기 -->
     <a href="?">
       <img class="arrow" src="./arrow.png">
     </a>
   </header>
 
   <main>
-    <div class="title">
-      <p class="name">작업명</p>
+    <div id="todo-list">
+      <!-- 이 위치에 js에서 만든 내용 들어옴-->
     </div>
 
-    <div class="two">
-      <div class="deadline">
-        <img src="./deadline.png">
-        <span class="span">마감일</span>
-      </div>
-      <div class="priority">
-        <img src="./priority.png">
-        <span class="span">우선순위</span>
-      </div>
-    </div>
+    <div id="edit-modal" class="modal">
+      <div class="modal-content">
+        <p>작업 수정</p>
+        <form id="edit-form">
+          <label for="edit-name">작업명:</label>
+          <input type="text" id="edit-name" required>
 
-    <div class="button">
-      <img class="edit" src="./edit.png">
-      <img class="trash" src="./trash.png">
+          <label for="edit-deadline">마감일:</label>
+          <input type="date" id="edit-deadline">
+
+          <label for="edit-priority">우선순위:</label>
+          <input type="number" id="edit-priority">
+
+          <button type="submit">수정</button>
+        </form>
+      </div>
     </div>
   </main>
 </body>
