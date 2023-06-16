@@ -71,6 +71,8 @@ def SetDeadlineView(request, workdata_id):
 
     return JsonResponse({'deadline': workdata.deadline})
 
+#ajax에서 완료 설정하기로 함
+'''
 def completedWork(request, workdata_id):
     workdata = get_object_or_404(WorkData, pk=workdata_id)
 
@@ -78,6 +80,7 @@ def completedWork(request, workdata_id):
     workdata.save()
 
     return JsonResponse({'completed': workdata.completed})
+'''
 
 def sortWorkPriority(request, pk):
     worklist = get_object_or_404(WorkList, pk=pk)
