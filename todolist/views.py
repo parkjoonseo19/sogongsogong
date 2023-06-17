@@ -1,13 +1,19 @@
 from django.shortcuts import get_object_or_404, render
 from .models import ListData, WorkData
+from todolist.serializers import ListDataSerializer, WorkDataSerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+
+from rest_framework.views import APIView
+from rest_framework import status
+from rest_framework.response import Response
 
 def ListAndWork(request) :
     lists = ListData.objects.all()
     return render(request,'index.html',{'lists':lists})
 
+'''
 # front 연결 시도해 본거라 나중에 변경하겠습니다 
 def test(request) :
     return render(request, 'todolist/work-management.html')
@@ -31,16 +37,86 @@ def addWork(request, worklist_id) :
         workdata = WorkData.objects.create(Workname=Workname, worklist=worklist)
 
         return JsonResponse({'status': 'success', 'workname': workdata.Workname})
+'''
+
+# REST API 이용 - 목록 
+class ListDataList(APIView) :
+    def get(self, request, format=None) :
+        listData = ListData.objects.all()
+        serializer = ListDataSerializer(listData, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request, format=None) :
+        serializer = ListDataSerializer(data=request.data)
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ListDataDetail(APIView) :
+    def get_object(self, pk) :
+        try :
+            return ListData.objects.get(pk=pk)
+        except :
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    def get(self, request, pk, format=None) :
+        listData = self.get_object(pk)
+        serializer = ListDataSerializer(listData)
+        return Response(serializer.data)
+    
+    def put(self, request, pk, format=None) :
+        listData = self.get_object(pk)
+        serializer = ListDataSerializer(listData, data=request.data)
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None) :
+        listData = self.get_object(pk)
+        listData.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+# REST API 이용 - 작업 
+class WorkDataList(APIView) :
+    def get(self, request, format=None) :
+        workData = WorkData.objects.all()
+        serializer = WorkDataSerializer(workData, many=True)
+        return Response(serializer.data)
+    def post(self, request, format=None) :
+        serializer = WorkDataSerializer(data=request.data)
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class WorkDataDetail(APIView) :
+    def get_object(self, pk) :
+        try :
+            return WorkData.objects.get(pk=pk)
+        except :
+            return Response(status=status.HTTP_404_NOT_FOUND)
+    def get(self, request, pk, format=None) :
+        workData = self.get_object(pk)
+        serializer = WorkDataSerializer(workData)
+        return Response(serializer.data)
+    
+    def put(self, request, pk, format=None) :
+        workData = self.get_object(pk)
+        serializer = WorkDataSerializer(workData, data=request.data)
+        if serializer.is_valid() :
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    def delete(self, request, pk, format=None) :
+        workData = self.get_object(pk)
+        workData.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
-
-
-           
-
-
-
-
+        
 
 '''
 class SetPriorityView(View):
