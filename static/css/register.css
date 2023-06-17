@@ -1,0 +1,181 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+header {
+  position: absolute;
+  width: 256.96px;
+  height: 108px;
+  left: calc(50% - 256.96px / 2 + 0.48px);
+  top: 84px;
+}
+
+.id {
+  position: absolute;
+  width: 69px;
+  height: 30px;
+  left: 477px;
+  top: 250px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  text-align: center;
+
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.inputRegID {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 330px;
+  height: 39px;
+  left: 631px;
+  top: 241px;
+  border: none;
+}
+
+.line1 {
+  position: absolute;
+  width: 600px;
+  height: 0px;
+  left: calc(50% - 600px / 2 + 2px);
+  top: 277px;
+
+  border: 2.5px solid #ffc4d6;
+}
+
+.pw {
+  position: absolute;
+  width: 92px;
+  height: 30px;
+  left: 477px;
+  top: 345px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  text-align: center;
+
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.inputRegPW {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 330px;
+  height: 39px;
+  left: 631px;
+  top: 336px;
+  border: none;
+}
+
+.line2 {
+  position: absolute;
+  width: 600px;
+  height: 0px;
+  left: calc(50% - 600px / 2 + 2px);
+  top: 372px;
+
+  border: 2.5px solid #bbf3ff;
+}
+
+.pw2 {
+  position: absolute;
+  width: 146px;
+  height: 30px;
+  left: 477px;
+  top: 443px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 30px;
+  text-align: center;
+
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.repeat {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 330px;
+  height: 39px;
+  left: 631px;
+  top: 434px;
+  border: none;
+}
+
+.line3 {
+  position: absolute;
+  width: 600px;
+  height: 0px;
+  left: calc(50% - 600px / 2 + 2px);
+  top: 470px;
+
+  border: 2.5px solid #bbf3ff;
+}
+
+.pwError {
+  position: absolute;
+  width: 192px;
+  height: 18px;
+  left: 477px;
+  top: 488px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+
+  color: #d20000;
+}
+
+.check-ID-dup {
+  position: absolute;
+  width: 100px;
+  height: 42px;
+  left: 969px;
+  top: 239px;
+
+  background: #ffc4d6;
+  border-radius: 5px;
+  border: none;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+
+  color: #666378;
+  cursor: pointer;
+}
+
+.btnTryReg {
+  position: absolute;
+  width: 595px;
+  height: 60px;
+  left: calc(50% - 595px / 2 - 0.5px);
+  top: 531px;
+
+  background: #f0f0f0;
+  border-radius: 5px;
+  border: none;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+
+  color: #666378;
+  cursor: pointer;
+}

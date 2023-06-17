@@ -1,27 +1,35 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <link rel="stylesheet" href="{% static 'css/register.css' %}">
+  <header>
+    <img src="{% static 'img/logo.png' %}" alt="로고"></img>
+  </header>
 </head>
 <body>
-<form method="POST">
-  {% csrf_token %}
-  <div>
-    <input type="text" name="inputRegID" placeholder="아이디" required />
-    <button type="submit" name="checkIDdup">중복확인</button>
-    {% if id_error_message %}
-    <p>{{ id_error_message }}</p>
-    {% endif %}
-  </div>
+  <form method="POST">
+    <label>
+    {% csrf_token %}
+    <div class="id">아이디</div>
+      <input type="text" name="inputRegID" id="inputRegID" class="inputRegID" required />
+      <button type="button" name="checkIDdup" id="check-ID-dup" class="check-ID-dup">중복확인</button>
+      <hr class="line1"></hr>
+  </label>
+  <br />
+  <label>
+    <div class="pw">비밀번호</div>
+        <input type="password" name="inputRegPW" id="inputRegPW" class="inputRegPW"/>
+        <hr class="line2"></hr>
+    </label>
+    <br />
+    <label>
+      <div class="pw2">비밀번호 확인</div>
+        <input type="password" name="repeat" id="repeat"  class="repeat" />
+        <hr class="line3"></hr>
+        <!-- <div id="pwError" class="pwError"></div> -->
+    </label>
+    <input type="submit" name="saveuser" id="btnTryReg" class="btnTryReg" value="회원가입" />
+  </form>
 
-  <div>
-    <div>
-      <input type="password" name="inputRegPW" placeholder="비밀번호" />
-    </div>
-    <div>
-      <input type="password" name="repeat" placeholder="비밀번호 확인" />
-      {% if pwd_error_message %}
-      <p>{{ pwd_error_message }}</p>
-      {% endif %}
-    </div>
-  </div>
-  <input type="submit" name="saveuser" value="회원가입" />
-</form>
+  <script src="{% static 'js/register.js' %}"></script>
 {% endblock %}
