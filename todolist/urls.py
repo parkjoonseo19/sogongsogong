@@ -1,6 +1,6 @@
 from django.urls import path
 from todolist import views
-from views import *
+from .views import *
 
 urlpatterns = [
     path('',views.ListAndWork, name='ListAndWork'),
@@ -8,7 +8,8 @@ urlpatterns = [
     path('addList/', views.addList, name='addList'),
     path('workdata/SetPriorityView/<int:pk>/', views.SetPriorityView, name='SetPriority'),
     path('workdata/SetDeadlineView/<int:pk>/', views.SetDeadlineView, name='SetDeadlineView'),
-    path('mark_completed/<int:workdata_id>/', views.completedWork, name='completedWork'),
-    path('workdata/sortWorkPriority/<int:pk>/', views.SortByPriorityView, name='sortWorkPriority'),
-    path('workdata/sortWorkDeadline/<int:pk>/', views.SortByDeadlineView, name='sortWorkDeadline'),
+    path('workdata/sortWorkPriority/<int:pk>/', views.sortWorkPriority, name='sortWorkPriority'),
+    path('workdata/sortWorkDeadline/<int:pk>/', views.sortWorkDeadline, name='sortWorkDeadline'),
 ]
+
+# path('mark_completed/<int:workdata_id>/', views.completedWork, name='completedWork'),
