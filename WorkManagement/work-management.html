@@ -28,15 +28,15 @@
     <div id="edit-modal" class="modal">
       <div class="modal-content">
         <p>작업 수정</p>
-        <form id="edit-form">
+        <form id="edit-form" action="{% url 'getWorkdetail' pk=workdata.id %}" method="POST">
           <label for="edit-name">작업명:</label>
-          <input type="text" id="edit-name" required>
+          <input type="text" id="edit-name" name="name" required>
 
           <label for="edit-deadline">마감일:</label>
-          <input type="date" id="edit-deadline">
+          <input type="date" id="edit-deadline" name="deadline">
 
           <label for="edit-priority">우선순위:</label>
-          <input type="number" id="edit-priority">
+          <input type="number" id="edit-priority" name="priority">
 
           <button type="submit">수정</button>
         </form>

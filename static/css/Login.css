@@ -1,0 +1,139 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap");
+
+* {
+  font-family: "Noto Sans KR", sans-serif;
+}
+
+header {
+  position: absolute;
+  width: 256.96px;
+  height: 108px;
+  left: calc(50% - 256.96px / 2 + 0.48px);
+  top: 84px;
+}
+
+.id {
+  position: absolute;
+  width: 248px;
+  height: 60px;
+  left: 391px;
+  top: 255px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+
+  color: #666378;
+}
+
+.inputID {
+  position: absolute;
+  width: 458px;
+  height: 39px;
+  left: 599px;
+  top: 255px;
+}
+
+.line1 {
+  position: absolute;
+  width: 600px;
+  height: 0px;
+  left: calc(50% - 600px / 2);
+  top: 290px;
+
+  border: 2.5px solid #ffc4d6;
+}
+
+.pw {
+  position: absolute;
+  width: 248px;
+  height: 60px;
+  left: 405px;
+  top: 357px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+
+  color: #666378;
+}
+
+.inputPW {
+  position: absolute;
+  width: 458px;
+  height: 39px;
+  left: 599px;
+  top: 357px;
+}
+
+.line2 {
+  position: absolute;
+  width: 600px;
+  height: 0px;
+  left: calc(50% - 600px / 2);
+  top: 393px;
+
+  border: 2.5px solid #bbf3ff;
+}
+
+input {
+  border: none;
+}
+
+.btnlogin {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 30px;
+  line-height: 36px;
+  text-align: center;
+  color: #666378;
+
+  position: absolute;
+  width: 595px;
+  height: 60px;
+  left: calc(50% - 595px / 2 - 0.5px);
+  top: 457px;
+
+  background: #f0f0f0;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.join {
+  position: absolute;
+  width: 212px;
+  height: 24px;
+  left: 469px;
+  top: 537px;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  text-align: center;
+
+  color: #666378;
+}
+
+a {
+  position: absolute;
+  width: 74px;
+  height: 24px;
+  left: calc(50% - 74px / 2 - 37px);
+  top: 537px;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  text-decoration-line: none;
+
+  color: #0038ff;
+}

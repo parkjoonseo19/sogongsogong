@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import ListData
+from django.shortcuts import get_object_or_404, render
+from .models import ListData, WorkData
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
@@ -21,6 +21,26 @@ def addList(request) :
         new_list = ListData.objects.create(listname=listname, user=user)
         return JsonResponse({'status': 'success', 'new_list_listname': new_list.listname})
     return JsonResponse({'status': 'error'})
+
+def addWork(request, worklist_id) :
+        worklist = get_object_or_404(WorkList, pk=worklist_id)
+
+        if request.method == 'POST':
+            Workname = request.POST.get('name')
+
+        workdata = WorkData.objects.create(Workname=Workname, worklist=worklist)
+
+        return JsonResponse({'status': 'success', 'workname': workdata.Workname})
+
+
+
+
+
+           
+
+
+
+
 
 '''
 class SetPriorityView(View):
@@ -97,7 +117,7 @@ def getWorkdetail(request, workdata_id):
 
 
 def sortWorkPriority(request, pk):
-    worklist = get_object_or_404(WorkList, pk=pk)
+    worklist = get_object_or_404(ListData, pk=pk)
     workdata_list = worklist.workdata_set.order_by('priority')
 
     context = {'worklist': worklist, 'workdata_list': workdata_list}
@@ -105,7 +125,7 @@ def sortWorkPriority(request, pk):
     return render(request, 'workdata.html', context)
 
 def sortWorkDeadline(request, pk):
-    worklist = get_object_or_404(WorkList, pk=pk)
+    worklist = get_object_or_404(ListData, pk=pk)
     workdata_list = worklist.workdata_set.order_by('deadline')
 
     context = {'worklist': worklist, 'workdata_list': workdata_list}

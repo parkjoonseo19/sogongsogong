@@ -1,16 +1,28 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} {% load static %}  {% block content %}
+<link rel="stylesheet" href="{% static 'css/Login.css' %}">
+<header>
+  <img src="{% static 'img/logo.png' %}" alt="로고"></img>
+</header>
 </head>
 <body>
+  <div class="Login">
 <form action="{% url 'login' %}" method="POST">
-  {% csrf_token %} {% if error_message %}
-  <p>{{ error_message }}</p>
-  {% endif%}
-  <div><input type="text" name="inputID" placeholder="아이디" required /></div>
-  <div>
-    <input type="password" name="inputPW" placeholder="비밀번호" required />
-  </div>
-  <input type="submit" value="로그인" />
+  {% csrf_token %} 
+  <div class="id">아이디</div>
+  <label>
+    <input type="text" name="inputID" id="inputID" class="inputID" required /></div>
+    <input type="password" name="inputPW" id="inputPW" class="inputPW" required />
+    <hr class="line1"></hr>
+  </label>
+  <br />
+  <label>
+    <div class="pw">비밀번호</div>
+  <input type="button" id="btnlogin" class="btnlogin" value="로그인" />
+  <hr class="line2"></hr>
+</label>
+<br />
 </form>
-
-<div>Todoto가 처음이신가요?<a href="{% url 'register' %}">회원가입</a></div>
+<p><div class="join">Todoto가 처음이신가요?</div><a href="{% url 'register' %}">회원가입</a></p>
+</div>
+<script src="{% static 'js/login.js' %}"></script>
 {% endblock %}
