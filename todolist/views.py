@@ -82,6 +82,20 @@ def completedWork(request, workdata_id):
     return JsonResponse({'completed': workdata.completed})
 '''
 
+# 작업명, 마감기한, 우선순위 한번에 받는 메서드...
+def getWorkdetail(request, workdata_id):
+    workdata = get_object_or_404(WorkData, pk=workdata_id)
+
+    if request.method == 'POST':
+        workdata.name = request.POST.get('name')
+        workdata.deadline = request.POST.get('deadline')
+        workdata.priority = request.POST.get('priority')
+        workdata.save()
+
+    return render(request, 'work-management.html', {'workdata': workdata})
+
+
+
 def sortWorkPriority(request, pk):
     worklist = get_object_or_404(WorkList, pk=pk)
     workdata_list = worklist.workdata_set.order_by('priority')
