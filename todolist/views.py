@@ -117,16 +117,16 @@ def getWorkdetail(request, workdata_id):
 
 
 def sortWorkPriority(request, pk):
-    worklist = get_object_or_404(ListData, pk=pk)
-    workdata_list = worklist.workdata_set.order_by('priority')
+    worklist = get_object_or_404(ListData, pk=worklist.id)
+    workdata_list = worklist.WorkData_set.order_by('priority')
 
     context = {'worklist': worklist, 'workdata_list': workdata_list}
 
     return render(request, 'workdata.html', context)
 
 def sortWorkDeadline(request, pk):
-    worklist = get_object_or_404(ListData, pk=pk)
-    workdata_list = worklist.workdata_set.order_by('deadline')
+    worklist = get_object_or_404(ListData, pk=worklist.id)
+    workdata_list = worklist.WorkData_set.order_by('deadline')
 
     context = {'worklist': worklist, 'workdata_list': workdata_list}
 
