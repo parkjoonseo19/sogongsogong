@@ -14,15 +14,15 @@ header {
 
 .id {
   position: absolute;
-  width: 248px;
-  height: 60px;
-  left: 391px;
+  width: 58px;
+  height: 25px;
+  left: 499px;
   top: 255px;
 
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
-  line-height: 36px;
+  font-size: 21px;
+  line-height: 41px;
   text-align: center;
 
   color: #666378;
@@ -30,17 +30,19 @@ header {
 
 .inputID {
   position: absolute;
-  width: 458px;
+  width: 390px;
   height: 39px;
   left: 599px;
   top: 255px;
+
+  font-size: 20px;
 }
 
 .line1 {
   position: absolute;
-  width: 600px;
+  width: 550px;
   height: 0px;
-  left: calc(50% - 600px / 2);
+  left: calc(50% - 550px / 2);
   top: 290px;
 
   border: 2.5px solid #ffc4d6;
@@ -48,15 +50,15 @@ header {
 
 .pw {
   position: absolute;
-  width: 248px;
-  height: 60px;
-  left: 405px;
+  width: 78px;
+  height: 25px;
+  left: 499px;
   top: 357px;
 
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
-  line-height: 36px;
+  font-size: 21px;
+  line-height: 41px;
   text-align: center;
 
   color: #666378;
@@ -64,17 +66,19 @@ header {
 
 .inputPW {
   position: absolute;
-  width: 458px;
+  width: 390px;
   height: 39px;
   left: 599px;
   top: 357px;
+
+  font-size: 20;
 }
 
 .line2 {
   position: absolute;
-  width: 600px;
+  width: 550px;
   height: 0px;
-  left: calc(50% - 600px / 2);
+  left: calc(50% - 550px / 2);
   top: 393px;
 
   border: 2.5px solid #bbf3ff;
@@ -87,15 +91,15 @@ input {
 .btnlogin {
   font-style: normal;
   font-weight: 400;
-  font-size: 30px;
+  font-size: 21px;
   line-height: 36px;
   text-align: center;
   color: #666378;
 
   position: absolute;
-  width: 595px;
+  width: 550px;
   height: 60px;
-  left: calc(50% - 595px / 2 - 0.5px);
+  left: calc(50% - 550px / 2);
   top: 457px;
 
   background: #f0f0f0;
@@ -106,15 +110,15 @@ input {
 
 .join {
   position: absolute;
-  width: 212px;
+  width: 191px;
   height: 24px;
-  left: 469px;
-  top: 537px;
+  left: 496px;
+  top: 527px;
 
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 22px;
   text-align: center;
 
   color: #666378;
@@ -122,14 +126,14 @@ input {
 
 a {
   position: absolute;
-  width: 74px;
-  height: 24px;
-  left: calc(50% - 74px / 2 - 37px);
-  top: 537px;
+  width: 67px;
+  height: 22px;
+  left: calc(50% - 74px / 2 - 39.5px);
+  top: 527px;
   font-style: normal;
   font-weight: 400;
-  font-size: 20px;
-  line-height: 24px;
+  font-size: 18px;
+  line-height: 22px;
   display: flex;
   align-items: center;
   text-align: center;
