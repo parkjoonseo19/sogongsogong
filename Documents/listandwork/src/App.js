@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import './style.css';
 function Card({ id, title, content, onDelete }) {
   const [tasks, setTasks] = useState([
-    { id: 0, text: '작업 1', checked: false },
-    { id: 1, text: '작업 2', checked: true },
+    { id: 0, text: '작업 1', checked: false, deadline: '2023-06-30', priority: '1' },
+    { id: 1, text: '작업 2', checked: true,deadline: '2023-06-30', priority: '1' },
   ]);
 
   const [defaultListText, setDefaultListText] = useState('기본목록');
@@ -40,40 +40,53 @@ function Card({ id, title, content, onDelete }) {
   return (
     <div className="card">
       <ul className="task-list">
-        <div onClick={() => setIsEditingDefaultList(true)}>
-          {isEditingDefaultList ? (
-            <input
-              type="text"
-              value={defaultListText}
-              onChange={handleDefaultListTextChange}
-              onBlur={() => setIsEditingDefaultList(false)}
-            />
-          ) : (
-            defaultListText
-          )}
+        <div id="workname_btn">
+          <div id="workname">
+            <div onClick={() => setIsEditingDefaultList(true)}>
+              {isEditingDefaultList ? (
+                <input
+                  type="text"
+                  value={defaultListText}
+                  onChange={handleDefaultListTextChange}
+                  onBlur={() => setIsEditingDefaultList(false)}
+                />
+              ) : (
+                defaultListText
+              )}
+
+            </div>
+            <div>
+              <button class="arrangebtn">
+                <img src="/img/arrange.png" alt="정렬" />
+              </button>
+            </div>
+            <div>
+              <button class="deletebtn" onClick={handleDelete}>
+                <img src="/img/delete.png" alt="삭제" />
+              </button>
+            </div>
+          </div>
         </div>
-        <button class="arrangebtn">
-          <img src="/img/arrange.png" alt="정렬" />
-        </button>
-        <button class="deletebtn" onClick={handleDelete}>
-          <img src="/img/delete.png" alt="삭제" />
-        </button>
-        {tasks.map((task) => (
-          <li key={task.id}>
-            <label className="checkbox-label">
-              <input
-                type="checkbox"
-                checked={task.checked}
-                onChange={() => handleCheckboxChange(task.id)}
-              />
-              {task.text}
-              <span className="checkbox-custom"></span>
-            </label>
-          </li>
-        ))}
-        <button onClick={handleAddTask}>
-          <img src="/img/workplus.png" alt="작업추가" />
-        </button>
+
+        <div id="checkbox_div">
+          {tasks.map((task) => (
+            <li key={task.id}>
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  checked={task.checked}
+                  onChange={() => handleCheckboxChange(task.id)}
+                />
+                {task.text}
+                <span className="checkbox-custom"></span>
+              </label>
+            </li>
+          ))}
+        
+          <button id="workplus" onClick={handleAddTask}>
+            <img  src="/img/workplus.png" alt="작업추가" />
+          </button>
+        </div>
       </ul>
 
       <h2>{title}</h2>
@@ -96,21 +109,28 @@ export default function App() {
 
   return (
     <div className="app">
-      <h1>
-        <a href="">
-          <img src="/img/logo.png" alt="로고" />
+      
+      <div class="header">
+        <a href="" >
+          <img id="logo" src="/img/logo.png" alt="로고" />
         </a>
-      </h1>
-      <div className="user-info">username님</div>
-      <button>
-        <img src="/img/logout.png" alt="로그아웃" />
-      </button>
+        
+        <div id="user">
+          <div id="user-info" >username  님</div>
+          <button id="logout">
+            <img src="/img/loggout.png" alt="로그아웃" />
+          </button>
+        </div>
+      </div>
+      
       {cards.map((card) => (
         <Card key={card.id} id={card.id} onDelete={deleteCard} />
       ))}
-      <button onClick={addCard}>
-        <img src="/img/listplus.png" alt="목록추가" />
-      </button>
+      <div id="listplus">
+        <button onClick={addCard}>
+          <img src="/img/listplus.png" alt="목록추가" />
+        </button>
+      </div>
     </div>
   );
 }
