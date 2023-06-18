@@ -1,12 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from "react";
 import './App.css'; // CSS 파일을 import하여 사용
 
 function App() {
-  const [todos] = useState([
-    { name: '어학연수 알아보기', deadline: '2023-06-21', priority: '6' },
-  ]);
+  const [todos, setTodos] = useState([]);
 
-  const openEditModal = () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/todolist/work-list/workData/1"
+        );
+        const data = await response.json();
+
+        setTodos([
+          {
+            name: data.workName,
+            deadline: data.workDeadline,
+            priority: data.workPriority,
+          },
+        ]);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []); 
+
+
+
+const openEditModal = () => {
     const editModal = document.getElementById('edit-modal');
     const editForm = document.getElementById('edit-form');
     const editNameInput = document.getElementById('edit-name');
@@ -15,7 +38,7 @@ function App() {
 
     const todo = todos[0]; // 첫 번째 할 일 데이터 가져오기
 
-    // 기존 할 일 데이터를 모달 내의 입력 필드에 채움
+    // 기존 할 일 데이터를 모달 내  의 입력 필드에 채움
     editNameInput.value = todo.name;
     editDeadlineInput.value = todo.deadline || '';
     editPriorityInput.value = todo.priority || '';
