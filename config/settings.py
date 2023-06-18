@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'todolist',
     'rest_framework',
     'corsheaders',
+    'rest_framework.authtoken'
+
 ]
 
 MIDDLEWARE = [
