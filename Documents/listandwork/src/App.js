@@ -1,4 +1,4 @@
-//css (버튼 포함), 글씨체
+
 //기술적인 부분 로그아웃, 로그인시 이름 뜨게, 정렬, 마감일도
 
 import React, { useState } from 'react';
@@ -6,7 +6,8 @@ import './style.css';
 function Card({ id, title, content, onDelete }) {
   const [tasks, setTasks] = useState([
     { id: 0, text: '작업 1', checked: false, deadline: '2023-06-30', priority: '1' },
-    { id: 1, text: '작업 2', checked: true,deadline: '2023-06-30', priority: '1' },
+    //deadline:'2023-06-19' (오늘날짜)로 수정하면 빨간색으로 뜸 
+    { id: 1, text: '작업 2', checked: true,deadline: '2023-06-01', priority: '2' },
   ]);
 
   const [defaultListText, setDefaultListText] = useState('기본목록');
@@ -20,15 +21,61 @@ function Card({ id, title, content, onDelete }) {
     );
   };
 
+    // 중복되지 않는 랜덤 수 생성 함수(테스트용)
+  function generateUniqueRandomNumber() {
+    const usedNumbers = tasks.map((task) => parseInt(task.priority));
+    let randomNumber = getRandomNumber();
+  
+    while (usedNumbers.includes(randomNumber)) {
+      randomNumber = getRandomNumber();
+    }
+  
+    return randomNumber;
+  }
+  // 랜덤 수 생성 함수(테스트용)
+  function getRandomNumber() {
+    // 원하는 수의 범위를 지정하세요 (예: 1부터 10까지)
+    const min = 1;
+    const max = 10;
+
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
   const handleAddTask = () => {
+    const year = 2023; //이거는 테스트용으로 날짜랜덤생성한거. 작업수정페이지랑 연결하면 삭제
+    const month = '06';
+    const day = String(Math.floor(Math.random() * 30) + 1).padStart(2, '0');
+    const deadline = `${year}-${month}-${day}`; //여기까지 날짜랜덤생성
+
+    const priority = generateUniqueRandomNumber(); //우선순위 랜덤 생성
+
     const newTask = {
       id: tasks.length,
       text: `작업 ${tasks.length + 1}`,
       checked: false,
+      deadline: deadline,
+      priority: priority.toString()
     };
     setTasks((prevTasks) => [...prevTasks, newTask]);
+    console.log("Deadline:", deadline);
+    console.log("Priority:", priority);
   };
 
+  const [sortChange, setSortChange] = useState(false); //정렬버튼 누를때마다 데드라인 정렬부터 번갈아가면서 정렬하기 위해 만든 state
+  const [sortImage,setSortImage]=useState("/img/arrange.png");
+  const handleSortTasks = () => {  //정렬
+    setTasks((prevTasks) => {
+      if (sortChange) {
+        return [...prevTasks].sort((a, b) => Number(a.priority) - Number(b.priority)); //데드라인 정렬
+      } else {
+        return [...prevTasks].sort((a, b) => (a.deadline > b.deadline ? 1 : -1));  //우선순위 정렬
+      }
+    });
+
+    setSortChange((prevValue) => !prevValue);
+    setSortImage((prevImage)=>{
+      return prevImage ==="/img/arrange.png"?"/img/darrange.png":"/img/arrange.png";
+    });
+  };
   const handleDelete = () => {
     onDelete(id);
   };
@@ -40,9 +87,9 @@ function Card({ id, title, content, onDelete }) {
   return (
     <div className="card">
       <ul className="task-list">
-        <div id="workname_btn">
-          <div id="workname">
-            <div onClick={() => setIsEditingDefaultList(true)}>
+        <div id="work_head">
+          <div class="ardelbtn">
+            <button id="workname" onClick={() => setIsEditingDefaultList(true)}>
               {isEditingDefaultList ? (
                 <input
                   type="text"
@@ -54,38 +101,74 @@ function Card({ id, title, content, onDelete }) {
                 defaultListText
               )}
 
-            </div>
-            <div>
-              <button class="arrangebtn">
-                <img src="/img/arrange.png" alt="정렬" />
-              </button>
-            </div>
-            <div>
-              <button class="deletebtn" onClick={handleDelete}>
-                <img src="/img/delete.png" alt="삭제" />
-              </button>
-            </div>
+            </button>
           </div>
+          <div class="ardelbtn">
+            <button class="arrangebtn" onClick={handleSortTasks}>
+                <img src={sortImage} alt="정렬" />
+            </button>
+          </div>
+          <div class="ardelbtn">          
+            <button class="deletebtn" onClick={handleDelete}>
+                <img src="/img/delete.png" alt="삭제" />
+            </button>
+          </div>    
         </div>
 
         <div id="checkbox_div">
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <label className="checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={task.checked}
-                  onChange={() => handleCheckboxChange(task.id)}
-                />
-                {task.text}
-                <span className="checkbox-custom"></span>
-              </label>
-            </li>
-          ))}
-        
+        {tasks
+            .filter((task) => !task.checked)
+            .map((task) => (
+              
+              <li key={task.id}>
+                <label className="checkbox-label">
+                    {task.checked ? (
+                      <img
+                        src="/img/notfull.png"
+                        alt="체크된 이미지"
+                        onClick={() => handleCheckboxChange(task.id)}
+                      />
+                    ) : (
+                      <img
+                        src="/img/full2.png"
+                        alt="체크박스 체크안됨"
+                        onClick={() => handleCheckboxChange(task.id)}
+                      />
+                    )}
+                  
+                  <span class="checkbox-text">{task.text}</span>
+                </label>
+              </li>
+            ))} 
+                     
+            {tasks
+              .filter((task) => task.checked) // 체크된 작업만 필터링
+              .map((task) => (
+                <li key={task.id}>
+                  <label className="checkbox-label_checked">
+                    {task.checked ? (
+                      <img
+                        src="/img/notfull.png"
+                        alt="체크된 이미지"
+                        onClick={() => handleCheckboxChange(task.id)}
+                      />
+                    ) : (
+                      <img
+                        src="/img/full2.png"
+                        alt="체크박스 체크안됨"
+                        onClick={() => handleCheckboxChange(task.id)}
+                      />
+                      
+                    )}
+                    <span className="checkbox-text_checked">{task.text}</span>
+                  </label>
+                </li>
+              ))}
           <button id="workplus" onClick={handleAddTask}>
             <img  src="/img/workplus.png" alt="작업추가" />
           </button>
+          
+            
         </div>
       </ul>
 
