@@ -1,4 +1,4 @@
-import "./App.css"; // CSS 파일을 import하여 사용
+import "./App.css";
 import React, { useState, useEffect } from "react";
 import Login from "./Login";
 import Register from "./register";
@@ -23,8 +23,6 @@ const App = () => {
         );
         const data = await response.json();
 
-        // 데이터를 todos 상태에 저장
-        // 데이터 형식이 todos 배열과 동일한지 확인하고 필요한 경우 수정하세요.
         setTodos(data);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -46,6 +44,7 @@ const App = () => {
   );
 };
 
+// 변경 예정 !
 const List = ({ todos }) => {
   return (
     <div>
@@ -68,10 +67,9 @@ const List = ({ todos }) => {
 const Detail = ({ todos }) => {
   const navigate = useNavigate();
 
-  let { pk } = useParams(); // URL에서 pk 값을 가져옵니다.
+  let { pk } = useParams();
   pk = parseInt(pk);
 
-  // pk 값에 해당하는 데이터를 찾습니다.
   const work = todos
     .flatMap((list) => list.work_data)
     .find((work) => work.pk === pk);
@@ -82,12 +80,10 @@ const Detail = ({ todos }) => {
     const editDeadlineInput = document.getElementById("edit-deadline");
     const editPriorityInput = document.getElementById("edit-priority");
 
-    // 기존 할 일 데이터를 모달 내의 입력 필드에 채움
     editNameInput.value = work.workName;
     editDeadlineInput.value = work.workDeadline || "";
     editPriorityInput.value = work.workPriority || "";
 
-    // 모달을 연다
     editModal.style.display = "block";
   };
 
@@ -129,10 +125,9 @@ const Detail = ({ todos }) => {
         throw new Error("Network response was not ok");
       }
 
-      navigate("/");
+      navigate("/"); // List로 나타낼 메인창 경로
       window.location.reload();
 
-      // 모달 닫기
       closeEditModal();
     } catch (error) {
       console.error("Error updating data: ", error);
@@ -152,7 +147,7 @@ const Detail = ({ todos }) => {
         throw new Error("Network response was not ok");
       }
 
-      navigate("/");
+      navigate("/"); // List로 나타낼 메인창 경로
       window.location.reload();
     } catch (error) {
       console.error("Error deleting data: ", error);
