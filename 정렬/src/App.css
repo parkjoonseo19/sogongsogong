@@ -1,0 +1,165 @@
+/*체크박스 이미지화 - 아마 리액트 고려 */
+/*각 li 위치 조정 */
+/*체크박스, 삭제 버튼 위치 조정
+달력 시기에 따라 조정 -> 이거까지 합해서 ul 하나 더 만들어야할 거 같기도 */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap');
+
+ul {
+  margin-top: 10px;
+  list-style: none;
+  text-align: center;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.card {
+
+  height: auto;
+  width: 700px;
+  border: 6px solid #FFC4D6;
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+input[type="checkbox"] {
+
+  width: 20px;
+  /*Desired width*/
+
+  height: 20px;
+  /*Desired height   display:none;*/
+
+  cursor: pointer;
+
+
+}
+
+li {
+  accent-color: #BBF3FF;
+  font-size: 20px;
+
+  padding-top: 15px;
+}
+
+button {
+  all: unset;
+}
+
+#workname_btn {}
+
+#workname {
+  background-color: #FFC4D6;
+  border-radius: 5px;
+  width: 200px;
+  height: 34px;
+  margin: auto;
+  color: #fff;
+
+}
+
+#logo {
+  position: absolute;
+
+  width: 300px;
+  height: 90px;
+  left: 24px;
+  top: 1px;
+}
+
+#checkbox_div {
+  margin-top: 40px;
+  margin-left: -110px;
+}
+
+#logout {
+  position: absolute;
+  width: 30.75px;
+  height: 31.5px;
+  right: 50px;
+  top: 50px;
+
+}
+
+#user-info {
+  position: absolute;
+  right: 110px;
+  top: 50px;
+  font-family: 'Noto Sans KR', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.header {
+  padding-bottom: 50px;
+  width: 211px;
+  height: 43px;
+  right: 100px;
+  top: 40px;
+
+  flex-direction: row;
+}
+
+
+
+
+input[type=checkbox]+label {
+  cursor: pointer;
+  padding-left: 23px;
+  background-repeat: no-repeat;
+  background-image: url('/public/img/logo.png');
+}
+
+input[type='checkbox']:checked+label {
+  background-image: url('/public/img/full.png');
+}
+
+input[type='checkbox']:disabled+label {
+  background-image: url('/public/img/loggout.png');
+}
+
+.card {
+  position: relative;
+}
+
+.deletebtn {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.arrangebtn {
+
+
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+.card:hover .deletebtn {
+  opacity: 1;
+}
+
+.card:hover .arrangebtn {
+  opacity: 1;
+}
+
+#workplus {
+  padding-top: 15px;
+  margin-left: -50px;
+}
+
+#listplus {
+  position: fixed;
+
+  right: 35px;
+  bottom: 30px;
+}
