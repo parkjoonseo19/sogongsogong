@@ -207,3 +207,24 @@ def sortWorkDeadline(request, pk):
     context = {'worklist': worklist, 'workdata_list': workdata_list}
 
     return render(request, 'workdata.html', context)
+
+#api버전으로 정렬들 각각 재작성
+@api_view(['GET'])
+def sortwithpriority(request, pk):
+    try:
+        workdata = WorkData.objects.filter(worklist_id=pk).order_by('workPriority')
+        serializer = WorkDataSerializer(workdata, many=True)
+        return Response(serializer.data)
+    except WorkData.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+@api_view(['GET'])
+def sortwithdeadline(request, pk):
+    try:
+        workdata = WorkData.objects.filter(worklist_id=pk).order_by('workDeadline')
+        serializer = WorkDataSerializer(workdata, many=True)
+        return Response(serializer.data)
+    except WorkData.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+
