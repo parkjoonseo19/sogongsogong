@@ -34,7 +34,8 @@ def user_register(request):
     user = User.objects.create_user(username=username, password=password)
     return Response({'message': 'User created successfully'}, status=201)
 
-def check_id(request, id):
+@api_view(['GET'])
+def check_id(request,id):
     if User.objects.filter(username=id).exists():
         return JsonResponse({'available': False})
     else:

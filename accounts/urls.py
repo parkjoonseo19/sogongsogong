@@ -9,5 +9,5 @@ urlpatterns = [
     
     path('api/login/', Login, name='login'),
     path('api/register/', user_register),
-    path('api/check_id/<str:username>/', views.check_id, name='check_id'),
+    path('api/check_id/<str:id>/', views.check_id, name='check_id'),
 ]
