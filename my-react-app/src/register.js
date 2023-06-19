@@ -49,12 +49,11 @@ const ClickTryReg = () => {
       });
   };
 
-  // 흐앙.. 이게 자꾸 error만 뜨는데 장고 설정 뭐가 문젠지 아직 못찾았스요..
   const handleCheckAvailability = (e) => {
     e.preventDefault();
 
     axios
-      .get(`http://localhost:8000/api/check_id/${id}`)
+      .get(`http://localhost:8000/api/check_id/${id}/`)
       .then((response) => {
         if (response.data.available) {
           alert("사용 가능한 아이디입니다.");
