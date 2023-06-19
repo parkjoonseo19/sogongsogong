@@ -12,20 +12,9 @@ const App = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // 로컬 스토리지에서 토큰 가져오기
-        const token = localStorage.getItem("token");
-
         const response = await fetch(
-          "http://localhost:8000/todolist/work-list/",
-          {
-            headers: {
-              Authorization: `Token ${token}`,
-            },
-          }
+          "http://localhost:8000/todolist/work-list/"
         );
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
         const data = await response.json();
 
         setTodos(data);
@@ -36,6 +25,33 @@ const App = () => {
 
     fetchData();
   }, []);
+
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         const token = localStorage.getItem("token");
+  //
+  //         const response = await fetch(
+  //           "http://localhost:8000/todolist/work-list/",
+  //           {
+  //             headers: {
+  //               Authorization: `Token ${token}`,
+  //             },
+  //           }
+  //         );
+  //         if (!response.ok) {
+  //           throw new Error("Network response was not ok");
+  //         }
+  //         const data = await response.json();
+  //
+  //         setTodos(data);
+  //       } catch (error) {
+  //         console.error("Error fetching data: ", error);
+  //       }
+  //     };
+  //
+  //     fetchData();
+  //   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
