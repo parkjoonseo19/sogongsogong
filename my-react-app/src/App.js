@@ -10,8 +10,22 @@ function Card({ id, title, content, onDelete, todos }) {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    setTasks([content]);
-  }, [content]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:8000/todolist/work-list/workData/"
+        );
+        const data = await response.json();
+        setTasks(data);
+        console.log(tasks);
+      } catch (error) {
+        console.error("Error fetching data: ", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const [defaultListText, setDefaultListText] = useState([]);
 
   useEffect(() => {
@@ -153,7 +167,7 @@ function Card({ id, title, content, onDelete, todos }) {
             </button>
           </div>
         </div>
-        {/*
+        <h2>{content}</h2>
         <div id="checkbox_div">
           {tasks
             .filter((task) => !task.completed)
@@ -174,7 +188,10 @@ function Card({ id, title, content, onDelete, todos }) {
                     />
                   )}
 
-                  <span class="checkbox-text">{task}</span>
+                  <span class="checkbox-text">
+                    {" "}
+                    <Link to={`/edit/${task.pk}`}>{task.workName}</Link>
+                  </span>
                 </label>
               </li>
             ))}
@@ -183,7 +200,6 @@ function Card({ id, title, content, onDelete, todos }) {
             <img src="/image/workplus.png" alt="작업추가" />
           </button>
         </div>
-        */}
       </ul>
 
       <p>{content}</p>
@@ -203,7 +219,6 @@ export default function App() {
           "http://localhost:8000/todolist/work-list/"
         );
         const data = await response.json();
-
         setTodos(data);
       } catch (error) {
         console.error("Error fetching data: ", error);
@@ -255,7 +270,7 @@ export default function App() {
             id={list.pk}
             title={list.listname}
             todos={todos}
-            content={list.work_data.pk}
+            content={list.work_data.workName}
             onDelete={deleteCard}
           />
         ))}
