@@ -75,22 +75,79 @@ const App = () => {
 
 const List = ({ todos, onLogout }) => {
   return (
-    <div>
-      <h2>todolist</h2>
-      {todos.map((list, index) => (
-        <div key={index}>
-          <h3>{list.listname}</h3>
+    <div className="app">
+      <div class="header">
+        <a href="">
+          <img id="logo" src="/image/logo.png" alt="로고" />
+        </a>
 
-          {list.work_data.map((work) => (
-            <div key={work.pk}>
-              <Link to={`/edit/${work.pk}`}>{work.workName}</Link>
+        <div id="user">
+          <div id="user-info">username 님</div>
+          <button id="logout" onClick={onLogout}>
+            <img src="/image/loggout.png" alt="로그아웃" />
+          </button>
+        </div>
+      </div>
+
+      {todos.map((list, index) => (
+        <div className="card" key={index}>
+          <ul className="task-list">
+            <div id="work_head">
+              <div id="work_head">
+                <div class="ardelbtn">
+                  <button id="workname">{list.listname}</button>
+                </div>
+              </div>
+              <div class="ardelbtn">
+                <button class="arrangebtn">
+                  <img src="/image/arrange.png" alt="정렬" />
+                </button>
+              </div>
+              <div class="ardelbtn">
+                <button class="deletebtn">
+                  <img src="/image/delete.png" alt="삭제" />
+                </button>
+              </div>
             </div>
-          ))}
+            <div id="checkbox_div">
+              {list.work_data.map((work) => (
+                <li key={work.pk}>
+                  <Link to={`/edit/${work.pk}`}>{work.workName}</Link>
+                  <div id="checkbox_div">
+                    {todos
+                      .filter((item) => item.pk === work.pk)
+                      .map((item) => (
+                        <li key={item.pk}>
+                          <label className="checkbox-label_checked">
+                            {item.completed ? (
+                              <img
+                                src="/image/notfull.png"
+                                alt="체크된 이미지"
+                              />
+                            ) : (
+                              <img
+                                src="/image/full2.png"
+                                alt="체크박스 체크안됨"
+                              />
+                            )}
+                            <span className="checkbox-text">
+                              {item.workName}
+                            </span>
+                          </label>
+                        </li>
+                      ))}
+                    <div id="listplus">
+                      <button>
+                        <img src="/image/listplus.png" alt="목록추가" />
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </div>
+          </ul>
         </div>
       ))}
-      <div>
-        <button onClick={onLogout}>로그아웃</button>
-      </div>
     </div>
   );
 };
