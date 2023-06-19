@@ -8,6 +8,10 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function Card({ id, title, content, onDelete, todos }) {
   const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    setTasks([content]);
+  }, [content]);
   const [defaultListText, setDefaultListText] = useState([]);
 
   useEffect(() => {
@@ -16,23 +20,6 @@ function Card({ id, title, content, onDelete, todos }) {
   const [isEditingDefaultList, setIsEditingDefaultList] = useState(false);
   const [sortChange, setSortChange] = useState(false); //정렬버튼 누를때마다 데드라인 정렬부터 번갈아가면서 정렬하기 위해 만든 state
   const [sortImage, setSortImage] = useState("/image/arrange.png");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetch(
-          "http://localhost:8000/todolist/work-list/workData"
-        );
-        const data = await response.json();
-
-        setTasks(data);
-      } catch (error) {
-        console.error("Error fetching data: ", error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
   //   useEffect(() => {
   //     const fetchData = async () => {
@@ -63,7 +50,7 @@ function Card({ id, title, content, onDelete, todos }) {
   const handleCheckboxChange = (taskId) => {
     setTasks((prevTasks) =>
       prevTasks.map((task) =>
-        task.id === taskId ? { ...task, checked: !task.checked } : task
+        task.id === taskId ? { ...task, completed: !task.completed } : task
       )
     );
   };
@@ -166,58 +153,37 @@ function Card({ id, title, content, onDelete, todos }) {
             </button>
           </div>
         </div>
-
+        {/*
         <div id="checkbox_div">
           {tasks
-            .filter((task) => !task.checked)
+            .filter((task) => !task.completed)
             .map((task) => (
-              <li key={task.id}>
+              <li key={task.pk}>
                 <label className="checkbox-label">
-                  {task.checked ? (
+                  {task.completed ? (
                     <img
                       src="/image/notfull.png"
                       alt="체크된 이미지"
-                      onClick={() => handleCheckboxChange(task.id)}
+                      onClick={() => handleCheckboxChange(task.pk)}
                     />
                   ) : (
                     <img
                       src="/image/full2.png"
                       alt="체크박스 체크안됨"
-                      onClick={() => handleCheckboxChange(task.id)}
+                      onClick={() => handleCheckboxChange(task.pk)}
                     />
                   )}
 
-                  <span class="checkbox-text">{task.text}</span>
+                  <span class="checkbox-text">{task}</span>
                 </label>
               </li>
             ))}
 
-          {tasks
-            .filter((task) => task.checked) // 체크된 작업만 필터링
-            .map((task) => (
-              <li key={task.id}>
-                <label className="checkbox-label_checked">
-                  {task.checked ? (
-                    <img
-                      src="/image/notfull.png"
-                      alt="체크된 이미지"
-                      onClick={() => handleCheckboxChange(task.id)}
-                    />
-                  ) : (
-                    <img
-                      src="/image/full2.png"
-                      alt="체크박스 체크안됨"
-                      onClick={() => handleCheckboxChange(task.id)}
-                    />
-                  )}
-                  <span className="checkbox-text_checked">{task.text}</span>
-                </label>
-              </li>
-            ))}
           <button id="workplus" onClick={handleAddTask}>
             <img src="/image/workplus.png" alt="작업추가" />
           </button>
         </div>
+        */}
       </ul>
 
       <p>{content}</p>
@@ -289,6 +255,7 @@ export default function App() {
             id={list.pk}
             title={list.listname}
             todos={todos}
+            content={list.work_data.pk}
             onDelete={deleteCard}
           />
         ))}
