@@ -208,9 +208,8 @@ function Card({ id, title, content, onDelete, todos }) {
 }
 
 export default function App() {
-  const [cards, setCards] = useState([{ id: 0 }]); // 초기에 기본 카드 하나를 추가
+  const [cards, setCards] = useState([{ id: 0, todos:[] }]); // 초기에 기본 카드 하나를 추가
 
-  const [todos, setTodos] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -219,7 +218,7 @@ export default function App() {
           "http://localhost:8000/todolist/work-list/"
         );
         const data = await response.json();
-        setTodos(data);
+        setTodos(data.map((list) => ({ id: list.pk, todos: list.todos })));
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -269,7 +268,7 @@ export default function App() {
                 key={list.pk}
                 id={list.pk}
                 title={list.listname}
-                todos={todos}
+                todos={list.todos}
                 content={list.work_data.workName}
                 onDelete={deleteCard}
               />
