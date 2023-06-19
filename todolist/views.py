@@ -4,46 +4,19 @@ from todolist.serializers import ListDataSerializer, WorkDataSerializer
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from rest_framework.permissions import IsAuthenticated
 
-from rest_framework.views import APIView
+from rest_framework.views import APIView 
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
-def ListAndWork(request) :
-    lists = ListData.objects.all()
-    return render(request,'index.html',{'lists':lists})
-
-'''
-# front 연결 시도해 본거라 나중에 변경하겠습니다 
-def test(request) :
-    return render(request, 'todolist/work-management.html')
-
-@csrf_exempt
-@login_required
-def addList(request) :
-    if request.method == 'POST':
-        listname = request.POST.get('listname')
-        user = request.user
-        new_list = ListData.objects.create(listname=listname, user=user)
-        return JsonResponse({'status': 'success', 'new_list_listname': new_list.listname})
-    return JsonResponse({'status': 'error'})
-
-def addWork(request, worklist_id) :
-        worklist = get_object_or_404(WorkList, pk=worklist_id)
-
-        if request.method == 'POST':
-            Workname = request.POST.get('name')
-
-        workdata = WorkData.objects.create(Workname=Workname, worklist=worklist)
-
-        return JsonResponse({'status': 'success', 'workname': workdata.Workname})
-'''
-
 # REST API 이용 - 목록 
 class ListDataList(APIView) :
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, format=None) :
-        listData = ListData.objects.all()
+        listData =ListData.objects.filter(user=request.user)
         serializer = ListDataSerializer(listData, many=True)
         return Response(serializer.data)
     
