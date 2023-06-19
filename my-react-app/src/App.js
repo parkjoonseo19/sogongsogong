@@ -6,7 +6,7 @@ import Edit from "./Edit";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-function Card({ id, title, content, onDelete, todos }) {
+function Card({ id, title, content, onDelete, tasks }) {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -218,7 +218,7 @@ export default function App() {
           "http://localhost:8000/todolist/work-list/"
         );
         const data = await response.json();
-        setTodos(data.map((list) => ({ id: list.pk, todos: list.todos })));
+        setCards(data.map((list) => ({ id: list.pk, tasks: list.tasks })));
       } catch (error) {
         console.error("Error fetching data: ", error);
       }
@@ -268,7 +268,7 @@ export default function App() {
                 key={list.pk}
                 id={list.pk}
                 title={list.listname}
-                todos={list.todos}
+                todos={list.todos} 
                 content={list.work_data.workName}
                 onDelete={deleteCard}
               />
