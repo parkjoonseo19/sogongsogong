@@ -262,18 +262,21 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/edit/:pk" element={<Edit todos={todos} />} />
-          <Route path="/" />
-        </Routes>
-        {todos.map((list) => (
-          <Card
-            key={list.pk}
-            id={list.pk}
-            title={list.listname}
-            todos={todos}
-            content={list.work_data.workName}
-            onDelete={deleteCard}
+          <Route
+            path="/"
+            element={todos.map((list) => (
+              <Card
+                key={list.pk}
+                id={list.pk}
+                title={list.listname}
+                todos={todos}
+                content={list.work_data.workName}
+                onDelete={deleteCard}
+              />
+            ))}
           />
-        ))}
+        </Routes>
+
         <div id="listplus">
           <button onClick={addCard}>
             <img src="/image/listplus.png" alt="목록추가" />
