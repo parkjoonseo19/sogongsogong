@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import generics
 
 from rest_framework.views import APIView 
 from rest_framework import status
@@ -14,10 +15,12 @@ from rest_framework.decorators import api_view
 # REST API 이용 - 목록 
 class ListDataList(APIView) :
     # permission_classes = [IsAuthenticated]
+    # serializer_class = ListDataSerializer
 
     def get(self, request, format=None) :
-        listData = ListData.objects.all()
-        # listData = ListData.objects.filter(user=request.user)
+        user = self.request.user
+        # listData = ListData.objects.all()
+        listData = ListData.objects.filter(user=request.user)
         serializer = ListDataSerializer(listData, many=True)
         return Response(serializer.data)
     
@@ -55,7 +58,7 @@ class ListDataDetail(APIView) :
 # REST API 이용 - 작업 
 class WorkDataList(APIView) :
     def get(self, request, format=None) :
-        workData = WorkData.objects.all()
+        workData = WorkData.objects.filter(user=user)
         serializer = WorkDataSerializer(workData, many=True)
         return Response(serializer.data)
     def post(self, request, format=None) :
@@ -88,10 +91,6 @@ class WorkDataDetail(APIView) :
         workData = self.get_object(pk)
         workData.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
-
-
-
-        
 
 '''
 class SetPriorityView(View):

@@ -29,6 +29,7 @@ function ClickLogin() {
         if (response.data.token) {
           console.log(response.data);
           localStorage.setItem("token", response.data.token);
+          console.log(response.data.token)
           alert("로그인에 성공했습니다.");
           navigate("/");
         } else {

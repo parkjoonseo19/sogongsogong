@@ -32,6 +32,7 @@ def user_register(request):
     if User.objects.filter(username=username).exists():
         return Response({'error': 'Username already exists'}, status=400)
     user = User.objects.create_user(username=username, password=password)
+
     return Response({'message': 'User created successfully'}, status=201)
 
 @api_view(['GET'])
