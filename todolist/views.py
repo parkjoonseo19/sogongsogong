@@ -13,10 +13,11 @@ from rest_framework.decorators import api_view
 
 # REST API 이용 - 목록 
 class ListDataList(APIView) :
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None) :
-        listData =ListData.objects.filter(user=request.user)
+        listData = ListData.objects.all()
+        # listData = ListData.objects.filter(user=request.user)
         serializer = ListDataSerializer(listData, many=True)
         return Response(serializer.data)
     
