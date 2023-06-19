@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import './style.css';
 function Card({ id, title, content, onDelete }) {
   const [tasks, setTasks] = useState([
-    { id: 0, text: '작업 1', checked: false, deadline: '2023-06-20', priority: '1' },
+    { id: 0, text: '작업 1', checked: false, deadline: '2023-06-30', priority: '1' },
     //deadline: (오늘날짜, 오늘 다음 날짜)로 수정하면 빨간색으로 뜸 
     { id: 1, text: '작업 2', checked: true,deadline: '2023-06-01', priority: '2' },
   ]);
