@@ -44,20 +44,20 @@ const App = () => {
 
   return (
     <Router>
-      <div>
-        <button onClick={handleLogout}>로그아웃</button>
-      </div>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/edit/:pk" element={<Edit todos={todos} />} />
-        <Route path="/" element={<List todos={todos} />} />
+        <Route
+          path="/"
+          element={<List todos={todos} onLogout={handleLogout} />}
+        />
       </Routes>
     </Router>
   );
 };
 
-const List = ({ todos }) => {
+const List = ({ todos, onLogout }) => {
   return (
     <div>
       <h2>todolist</h2>
@@ -72,6 +72,9 @@ const List = ({ todos }) => {
           ))}
         </div>
       ))}
+      <div>
+        <button onClick={onLogout}>로그아웃</button>
+      </div>
     </div>
   );
 };
