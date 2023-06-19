@@ -49,7 +49,14 @@ button {
 }
 .gray-text {
   color: gray;
+  
+  padding-left:15px;
 }
+.black-text{
+  
+  padding-left:15px;
+}
+
 #checkbox_div{
   margin-left:-110px;
 }
@@ -71,6 +78,11 @@ button {
   color:#c9c9c9; 
   
 }
+.red-text{
+  color:red;
+  padding-left:15px;
+}
+
 #workplus{
   padding-left: 15px;
   margin-left:-100px;

@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 import './style.css';
 function Card({ id, title, content, onDelete }) {
   const [tasks, setTasks] = useState([
-    { id: 0, text: '작업 1', checked: false, deadline: '2023-06-30', priority: '1' },
-    //deadline:'2023-06-19' (오늘날짜)로 수정하면 빨간색으로 뜸 
+    { id: 0, text: '작업 1', checked: false, deadline: '2023-06-20', priority: '1' },
+    //deadline: (오늘날짜, 오늘 다음 날짜)로 수정하면 빨간색으로 뜸 
     { id: 1, text: '작업 2', checked: true,deadline: '2023-06-01', priority: '2' },
   ]);
 
@@ -20,6 +20,25 @@ function Card({ id, title, content, onDelete }) {
       )
     );
   };
+  function isWithin24Hours2(deadline) {
+    const currentDate = new Date(); // 현재 날짜와 시간
+    const taskDeadline = new Date(deadline); // 작업의 마감 날짜와 시간
+
+    // 현재 날짜와 작업 날짜의 시간 간격을 계산합니다
+    const timeDiff = taskDeadline.getTime() - currentDate.getTime();
+    const diffInDays = timeDiff / (1000 * 60 * 60 * 24); // 밀리초 단위를 일 단위로 변환합니다
+
+    // 마감 기한이 2일 이상 남은 경우 검은색으로 처리합니다
+    if (diffInDays > 2) {
+      return 'black-text';
+    }
+
+    // 마감 기한을 넘긴 경우 검정색으로 처리합니다
+    if (diffInDays < 0) {
+      return 'gray-text';
+    }
+    return 'red-text';
+  }
 
     // 중복되지 않는 랜덤 수 생성 함수(테스트용)
   function generateUniqueRandomNumber() {
@@ -136,7 +155,9 @@ function Card({ id, title, content, onDelete }) {
                       />
                     )}
                   
-                  <span class="checkbox-text">{task.text}</span>
+                  <span  className={
+                      isWithin24Hours2(task.deadline)
+                    }>{task.text}</span>
                 </label>
               </li>
             ))} 
