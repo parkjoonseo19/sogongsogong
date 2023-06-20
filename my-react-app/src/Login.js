@@ -33,6 +33,7 @@ function ClickLogin() {
           localStorage.setItem("token", token);
           localStorage.setItem("username", username);
           console.log(localStorage.setItem("username", username));
+          console.log(token);
 
           alert("로그인에 성공했습니다.");
           navigate("/");

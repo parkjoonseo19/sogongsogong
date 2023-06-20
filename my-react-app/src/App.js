@@ -180,7 +180,7 @@ function Card({ id, content, todos }) {
     const newPK = generateUniquePK(existingTasks);
 
     const newTask = {
-      workName: "기본목록",
+      workName: "기본 작업",
       workPriority: priority,
       workDeadline: deadline,
       completed: false,
@@ -280,9 +280,78 @@ function Card({ id, content, todos }) {
   };
 
   const addCard = () => {
-    const newCard = { id: Date.now() }; // 새로운 카드의 id를 현재 시간으로 생성
-    setCards((prevCards) => [...prevCards, newCard]);
+    const priority = generateUniqueRandomNumber();
+    const existingLists = fetchExistingLists();
+    const newListPK = generateUniquePKList(existingLists);
+    const token = localStorage.getItem("token");
+
+    const newCard = {
+      listname: "기본 목록",
+      user: 1,
+      pk: newListPK,
+    };
+
+    try {
+      const response = fetch("http://localhost:8000/todolist/work-list/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Token ${token}`,
+        },
+        body: JSON.stringify(newCard),
+      });
+
+      console.log(newCard);
+      if (response.ok) {
+        const newCard = response.json();
+        setCards((prevCards) => [...prevCards, newCard]);
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      console.error("Error adding task: ", error);
+    }
+    window.location.reload();
   };
+
+  // 기존 작업 목록 가져오기
+  async function fetchExistingLists() {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "http://localhost:8000/todolist/work-list/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        throw new Error("Failed to fetch existing tasks");
+      }
+    } catch (error) {
+      console.error("Error fetching existing tasks: ", error);
+      return [];
+    }
+  }
+
+  function generateUniquePKList(existingLists) {
+    if (!Array.isArray(existingLists)) {
+      existingLists = [];
+    }
+
+    const existingPKs = existingLists.map((task) => task.pk);
+    let newPK = getRandomNumber();
+
+    while (existingPKs.includes(newPK)) {
+      newPK = getRandomNumber();
+    }
+    return newPK;
+  }
 
   return (
     <div className="app">
@@ -407,7 +476,6 @@ function Card({ id, content, todos }) {
 }
 
 export default function App() {
-  const [cards, setCards] = useState([{ id: 0, todos: [] }]); // 초기에 기본 카드 하나를 추가
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -446,7 +514,7 @@ export default function App() {
 
   const addCard = () => {
     const newCard = { id: Date.now() }; // 새로운 카드의 id를 현재 시간으로 생성
-    setCards((prevCards) => [...prevCards, newCard]);
+    setTodos((prevCards) => [...prevCards, newCard]);
   };
 
   return (
