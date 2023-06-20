@@ -51,12 +51,51 @@ function Card({ id, title, content, onDelete, todos }) {
   //
   //     fetchData();
   //   }, []);
+
+  // 작업 체크하면 db에 적용되도록
   const handleCheckboxChange = (taskPK) => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) =>
-        task.pk === taskPK ? { ...task, completed: !task.completed } : task
-      )
+    const updatedTasks = tasks.map((task) =>
+      task.pk === taskPK ? { ...task, completed: !task.completed } : task
     );
+    setTasks(updatedTasks);
+
+    const updatedTask = updatedTasks.find((task) => task.pk === taskPK);
+    if (updatedTask) {
+      updateTodoItem(updatedTask); // 작업의 완료 상태를 업데이트하는 함수 호출
+    }
+  };
+
+  const updateTodoItem = async (task) => {
+    const updatedData = {
+      workName: task.workName,
+      workPriority: task.workPriority,
+      workDeadline: task.workDeadline,
+      completed: true,
+      workList: task.workList,
+      user: task.user,
+      pk: task.pk,
+    };
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/todolist/work-list/workData/${task.pk}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(updatedData),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      // 업데이트 후에 필요한 작업 수행
+    } catch (error) {
+      console.error("Error updating data: ", error);
+    }
   };
 
   // 중복되지 않는 랜덤 수 생성 함수(테스트용)
