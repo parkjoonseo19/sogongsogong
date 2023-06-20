@@ -39,6 +39,13 @@ class ListDataDetail(APIView) :
         serializer = ListDataSerializer(listData)
         return Response(serializer.data)
     
+    def post(self, request,pk, format=None):
+        serializer = ListDataSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
     def put(self, request, pk, format=None) :
         listData = self.get_object(pk)
         serializer = ListDataSerializer(listData, data=request.data)
@@ -75,6 +82,15 @@ class WorkDataDetail(APIView) :
         workData = self.get_object(pk)
         serializer = WorkDataSerializer(workData)
         return Response(serializer.data)
+    
+      
+    def post(self, request,pk, format=None):
+        workData = self.get_object(pk)
+        serializer = WorkDataSerializer(workData, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     def put(self, request, pk, format=None) :
         workData = self.get_object(pk)
