@@ -14,7 +14,6 @@ function Card({ id, content, onDelete, todos }) {
   useEffect(() => {
     const parsedTodos = JSON.parse(todos);
     setDefaultListText(parsedTodos);
-    console.log(parsedTodos);
   }, [todos]);
 
   const [tasks, setTasks] = useState([]);
@@ -94,8 +93,6 @@ function Card({ id, content, onDelete, todos }) {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-
-      // 업데이트 후에 필요한 작업 수행
     } catch (error) {
       console.error("Error updating data: ", error);
     }
@@ -144,10 +141,10 @@ function Card({ id, content, onDelete, todos }) {
   };
 
   // 아래는 수정해야함 아마 삭제 안됨
-  const handleDelete = async () => {
+  const handleDelete = async (pk) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/todolist/work-list/workData`,
+        `http://localhost:8000/todolist/work-list/${pk}`,
         {
           method: "DELETE",
         }
@@ -157,7 +154,7 @@ function Card({ id, content, onDelete, todos }) {
         throw new Error("Network response was not ok");
       }
 
-      onDelete(id);
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting data: ", error);
     }
@@ -268,7 +265,10 @@ function Card({ id, content, onDelete, todos }) {
               </button>
             </div>
             <div class="ardelbtn">
-              <button class="deletebtn" onClick={handleDelete}>
+              <button
+                class="deletebtn"
+                onClick={() => handleDelete(defaultListText.pk)}
+              >
                 <img src="/image/delete.png" alt="삭제" />
               </button>
             </div>
