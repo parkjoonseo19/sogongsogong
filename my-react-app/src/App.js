@@ -167,26 +167,96 @@ function Card({ id, content, todos }) {
     }
   };
 
-  const handleAddTask = () => {
-    const year = 2023; //이거는 테스트용으로 날짜랜덤생성한거. 작업수정페이지랑 연결하면 삭제
+  // 작업 생성
+  const handleAddTask = async (pk) => {
+    // 날짜 랜덤 생성
+    const year = 2023;
     const month = "06";
     const day = String(Math.floor(Math.random() * 30) + 1).padStart(2, "0");
-    const deadline = `${year}-${month}-${day}`; //여기까지 날짜랜덤생성
+    const deadline = `${year}-${month}-${day}`;
 
-    const priority = generateUniqueRandomNumber(); //우선순위 랜덤 생성
+    const priority = generateUniqueRandomNumber();
+    const existingTasks = await fetchExistingTasks();
+    const newPK = generateUniquePK(existingTasks);
 
     const newTask = {
-      id: tasks.length,
-      text: `작업 ${tasks.length + 1}`,
-      checked: false,
-      deadline: deadline,
-      priority: priority.toString(),
+      workName: "기본목록",
+      workPriority: priority,
+      workDeadline: deadline,
+      completed: false,
+      workList: pk,
+      user: 1,
+      pk: newPK,
     };
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-    console.log("Deadline:", deadline);
-    console.log("Priority:", priority);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/todolist/work-list/workData/`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newTask),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+
+        setTasks((prevTasks) => [...prevTasks, data]);
+        window.location.reload();
+      } else {
+        throw new Error("Network response was not ok");
+      }
+    } catch (error) {
+      console.error("Error adding task: ", error);
+    }
   };
 
+  // 기존 작업 목록 가져오기
+  async function fetchExistingTasks() {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(
+        "http://localhost:8000/todolist/work-list/",
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        return data;
+      } else {
+        throw new Error("Failed to fetch existing tasks");
+      }
+    } catch (error) {
+      console.error("Error fetching existing tasks: ", error);
+      return [];
+    }
+  }
+
+  // 고유한 pk 생성 함수
+  function generateUniquePK(existingTasks) {
+    const existingPKs = existingTasks.map((task) => task.pk);
+    let newPK = getRandomNumber();
+
+    while (existingPKs.includes(newPK)) {
+      newPK = getRandomNumber();
+    }
+    return newPK;
+  }
+
+  function getRandomNumber() {
+    const min = 1;
+    const max = 100;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  // 로그아웃.
   const handleLogout = () => {
     const token = localStorage.getItem("token");
 
@@ -318,7 +388,10 @@ function Card({ id, content, todos }) {
                 </li>
               ))}
 
-            <button id="workplus" onClick={handleAddTask}>
+            <button
+              id="workplus"
+              onClick={() => handleAddTask(defaultListText.pk)}
+            >
               <img src="/image/workplus.png" alt="작업추가" />
             </button>
           </div>
