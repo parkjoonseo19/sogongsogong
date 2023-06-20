@@ -11,4 +11,4 @@ class ListDataSerializer(serializers.ModelSerializer):
     work_data = WorkDataSerializer(many=True, read_only=True)
     class Meta:
         model = ListData
-        fields = ['listname','work_data','user']
+        fields = ['listname','work_data','user','pk']
