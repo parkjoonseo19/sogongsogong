@@ -1,12 +1,13 @@
-import "./App.css"; // CSS 파일을 import하여 사용
+import "./App.css";
 import React, { useState, useEffect } from "react";
 import Login from "./Login";
 import Register from "./register";
 import Edit from "./Edit";
+import axios from "axios";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-function Card({ id, content, onDelete, todos }) {
+function Card({ id, content, todos }) {
   const [cards, setCards] = useState([{ id: 0, todos: [] }]); // 초기에 기본 카드 하나를 추가
 
   const [defaultListText, setDefaultListText] = useState([]);
@@ -26,33 +27,6 @@ function Card({ id, content, onDelete, todos }) {
   const [isEditingDefaultList, setIsEditingDefaultList] = useState(false);
   const [sortChange, setSortChange] = useState(false); //정렬버튼 누를때마다 데드라인 정렬부터 번갈아가면서 정렬하기 위해 만든 state
   const [sortImage, setSortImage] = useState("/image/arrange.png");
-
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         const token = localStorage.getItem("token");
-  //
-  //         const response = await fetch(
-  //           "http://localhost:8000/todolist/work-list/",
-  //           {
-  //             headers: {
-  //               Authorization: `Token ${token}`,
-  //             },
-  //           }
-  //         );
-  //         if (!response.ok) {
-  //           throw new Error("Network response was not ok");
-  //         }
-  //         const data = await response.json();
-  //
-  //         setTodos(data);
-  //       } catch (error) {
-  //         console.error("Error fetching data: ", error);
-  //       }
-  //     };
-  //
-  //     fetchData();
-  //   }, []);
 
   // 작업 체크하면 db에 적용되도록
   const handleCheckboxChange = (taskPK) => {
@@ -140,7 +114,7 @@ function Card({ id, content, onDelete, todos }) {
     });
   };
 
-  // 아래는 수정해야함 아마 삭제 안됨
+  // 목록 삭제
   const handleDelete = async (pk) => {
     try {
       const response = await fetch(
@@ -214,8 +188,25 @@ function Card({ id, content, onDelete, todos }) {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      axios
+        .post("http://localhost:8000/api/logout/", null, {
+          headers: {
+            Authorization: `Token ${token}`,
+          },
+        })
+        .then((response) => {
+          localStorage.removeItem("token");
+          window.location.href = "/login";
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      window.location.href = "/login";
+    }
   };
 
   const addCard = () => {
@@ -231,7 +222,7 @@ function Card({ id, content, onDelete, todos }) {
         </a>
 
         <div id="user">
-          <div id="user-info">admin 님</div>
+          <div id="user-info">{localStorage.getItem("username")} 님</div>
           <button id="logout" onClick={handleLogout}>
             <img src="/image/loggout.png" alt="로그아웃" />
           </button>
@@ -345,35 +336,44 @@ function Card({ id, content, onDelete, todos }) {
 export default function App() {
   const [cards, setCards] = useState([{ id: 0, todos: [] }]); // 초기에 기본 카드 하나를 추가
   const [todos, setTodos] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem("token");
         const response = await fetch(
-          "http://localhost:8000/todolist/work-list/"
+          "http://localhost:8000/todolist/work-list/",
+          {
+            headers: {
+              Authorization: `Token ${token}`,
+            },
+          }
         );
-        const data = await response.json();
-        setTodos(data);
-        // console.log(data.work_data);
+
+        if (response.ok) {
+          const data = await response.json();
+          setTodos(data);
+        } else {
+          throw new Error("Failed to fetch data");
+        }
       } catch (error) {
         console.error("Error fetching data: ", error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchData();
   }, []);
 
+  // 이상하게 .. 로딩이 안뜨고 새로고침해야 뜨네요 ㅠㅠ
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   const addCard = () => {
     const newCard = { id: Date.now() }; // 새로운 카드의 id를 현재 시간으로 생성
     setCards((prevCards) => [...prevCards, newCard]);
-  };
-
-  const deleteCard = (id) => {
-    setCards((prevCards) => prevCards.filter((card) => card.id !== id));
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.href = "/login";
   };
 
   return (
@@ -390,7 +390,6 @@ export default function App() {
               id={list.pk}
               todos={JSON.stringify(list)}
               content={JSON.stringify(list.work_data)}
-              onDelete={deleteCard}
             />
           ))}
         />
