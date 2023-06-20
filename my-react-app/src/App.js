@@ -6,8 +6,16 @@ import Edit from "./Edit";
 
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-function Card({ id, title, content, onDelete, todos }) {
+function Card({ id, content, onDelete, todos }) {
   const [cards, setCards] = useState([{ id: 0, todos: [] }]); // 초기에 기본 카드 하나를 추가
+
+  const [defaultListText, setDefaultListText] = useState([]);
+
+  useEffect(() => {
+    const parsedTodos = JSON.parse(todos);
+    setDefaultListText(parsedTodos);
+    console.log(parsedTodos);
+  }, [todos]);
 
   const [tasks, setTasks] = useState([]);
 
@@ -16,11 +24,6 @@ function Card({ id, title, content, onDelete, todos }) {
     setTasks(parsedContent);
   }, [content]);
 
-  const [defaultListText, setDefaultListText] = useState([]);
-
-  useEffect(() => {
-    setDefaultListText([title]);
-  }, [title]);
   const [isEditingDefaultList, setIsEditingDefaultList] = useState(false);
   const [sortChange, setSortChange] = useState(false); //정렬버튼 누를때마다 데드라인 정렬부터 번갈아가면서 정렬하기 위해 만든 state
   const [sortImage, setSortImage] = useState("/image/arrange.png");
@@ -61,7 +64,7 @@ function Card({ id, title, content, onDelete, todos }) {
 
     const updatedTask = updatedTasks.find((task) => task.pk === taskPK);
     if (updatedTask) {
-      updateTodoItem(updatedTask); // 작업의 완료 상태를 업데이트하는 함수 호출
+      updateTodoItem(updatedTask);
     }
   };
 
@@ -139,12 +142,58 @@ function Card({ id, title, content, onDelete, todos }) {
         : "/image/arrange.png";
     });
   };
-  const handleDelete = () => {
-    onDelete(id);
+
+  // 아래는 수정해야함 아마 삭제 안됨
+  const handleDelete = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8000/todolist/work-list/workData`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      onDelete(id);
+    } catch (error) {
+      console.error("Error deleting data: ", error);
+    }
   };
 
-  const handleDefaultListTextChange = (event) => {
-    setDefaultListText(event.target.value);
+  // 목록명 바꾸는 함수 (db저장)
+  const handleDefaultListTextChange = async (event, pk) => {
+    const newListname = event.target.value;
+    setDefaultListText([{ defaultListText, listname: newListname }]);
+    console.log(pk);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8000/todolist/work-list/${pk}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            listname: newListname,
+            work_data: defaultListText.work_data,
+            user: defaultListText.user,
+            pk: defaultListText.pk,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating data: ", error);
+    }
   };
 
   const handleAddTask = () => {
@@ -202,12 +251,14 @@ function Card({ id, title, content, onDelete, todos }) {
                 {isEditingDefaultList ? (
                   <input
                     type="text"
-                    value={defaultListText}
-                    onChange={handleDefaultListTextChange}
+                    value={defaultListText.listname}
+                    onChange={(event) =>
+                      handleDefaultListTextChange(event, defaultListText.pk)
+                    }
                     onBlur={() => setIsEditingDefaultList(false)}
                   />
                 ) : (
-                  defaultListText
+                  defaultListText.listname
                 )}
               </button>
             </div>
@@ -337,8 +388,7 @@ export default function App() {
             <Card
               key={list.pk}
               id={list.pk}
-              title={list.listname}
-              todos={todos}
+              todos={JSON.stringify(list)}
               content={JSON.stringify(list.work_data)}
               onDelete={deleteCard}
             />
