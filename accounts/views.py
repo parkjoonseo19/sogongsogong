@@ -3,11 +3,13 @@ from django.contrib import auth
 from django.contrib.auth.models import User 
 from django.http import JsonResponse
 
+from rest_framework.views import APIView 
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import IsAuthenticated
 
 
 @api_view(['POST'])
@@ -22,7 +24,7 @@ def Login(request):
     
     token, created = Token.objects.get_or_create(user=user)
     
-    return Response({'token': token.key})
+    return Response({'token': token.key, 'username': user.username})
 
 
 @api_view(['POST'])
@@ -41,3 +43,12 @@ def check_id(request,id):
         return JsonResponse({'available': False})
     else:
         return JsonResponse({'available': True})
+    
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        token = request.auth
+        if token:
+            token.delete()
+        return Response({"message": "로그아웃되었습니다."})
