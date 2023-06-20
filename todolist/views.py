@@ -21,12 +21,15 @@ class ListDataList(APIView) :
         serializer = ListDataSerializer(listData, many=True)
         return Response(serializer.data)
     
-    def post(self, request, format=None) :
+    def post(self, request, format=None):
         serializer = ListDataSerializer(data=request.data)
-        if serializer.is_valid() :
+        if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print(serializer.errors)  # 에러 출력
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class ListDataDetail(APIView) :
     def get_object(self, pk) :
@@ -38,13 +41,7 @@ class ListDataDetail(APIView) :
         listData = self.get_object(pk)
         serializer = ListDataSerializer(listData)
         return Response(serializer.data)
-    
-    def post(self, request,pk, format=None):
-        serializer = ListDataSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     
     def put(self, request, pk, format=None) :
         listData = self.get_object(pk)
