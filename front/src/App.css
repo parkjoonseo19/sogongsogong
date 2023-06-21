@@ -1,0 +1,159 @@
+/*각 li 텍스트 위치 조정 */
+/*마감일 지난 경우 / 마감일 하루 남은 경우 / 마감일 지났지만 못한 경우의 체크박스 */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap");
+
+ul {
+  margin-top: 10px;
+  list-style: none;
+  text-align: center;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  padding-top: 20px;
+  padding-right: 20px;
+}
+
+.card {
+  height: auto;
+  width: 700px;
+  border: 6px solid #ffc4d6;
+  border-radius: 10px;
+  margin-top: 30px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+li {
+  accent-color: #bbf3ff;
+  font-size: 20px;
+
+  padding-top: 15px;
+}
+button {
+  all: unset;
+}
+#logo {
+  position: absolute;
+
+  width: 300px;
+  height: 90px;
+  left: 24px;
+  top: 1px;
+}
+
+.red-text {
+  color: red;
+}
+.gray-text {
+  color: gray;
+}
+#checkbox_div {
+  margin-left: -110px;
+}
+
+.checkbox-label {
+  /*체크 안된 레이블*/
+  padding-right: 15px;
+}
+.checkbox-label_checked {
+  padding-right: 15px;
+}
+
+.checkbox-text {
+  /*체크 안된 글자*/
+  padding-left: 15px;
+}
+.checkbox-text_checked {
+  padding-left: 15px;
+  color: #c9c9c9;
+}
+#workplus {
+  padding-left: 15px;
+  margin-left: -100px;
+  margin-top: 20px;
+  padding-bottom: 50px;
+}
+
+#logout {
+  position: absolute;
+  width: 30.75px;
+  height: 31.5px;
+  right: 50px;
+  top: 50px;
+}
+#user-info {
+  position: absolute;
+  right: 110px;
+  top: 50px;
+  font-family: "Noto Sans KR", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 25px;
+  line-height: 36px;
+  text-align: center;
+}
+
+.header {
+  padding-bottom: 50px;
+  width: 211px;
+  height: 43px;
+  right: 100px;
+  top: 40px;
+
+  flex-direction: row;
+}
+
+.card {
+  position: relative;
+}
+
+#work_head {
+  /*목록명, 삭제, 정렬 버튼*/
+  width: 200px;
+  height: 40px;
+  display: flex;
+  margin-left: 100px;
+  margin-bottom: 30px;
+}
+#workname {
+  /*목록명 변경*/
+  background-color: #ffc4d6;
+  border-radius: 5px;
+  width: 200px;
+  height: 34px;
+
+  color: #fff;
+  float: center;
+  margin-left: 100px;
+}
+
+div.ardelbtn {
+  /*목록명, 삭제, 정렬버튼*/
+  float: right;
+}
+
+.deletebtn {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  padding-left: 10px;
+}
+
+.arrangebtn {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  padding-left: 10px;
+}
+
+.card:hover .deletebtn {
+  opacity: 1;
+}
+.card:hover .arrangebtn {
+  opacity: 1;
+}
+
+#listplus {
+  position: fixed;
+  right: 35px;
+  bottom: 30px;
+}
